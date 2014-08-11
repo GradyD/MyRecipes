@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
-class Recipe(db.Model):
-  num = db.IntegerProperty()
+class Recipe(ndb.Model):
+  name = ndb.StringProperty()
+  totalprice = ndb.FloatProperty()
+  totaltime = ndb.FloatProperty()
+  healthrating = ndb.IntegerProperty()
+  notes = ndb.StringProperty()

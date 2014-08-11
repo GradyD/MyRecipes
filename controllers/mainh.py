@@ -5,18 +5,17 @@ import webapp2
 
 from google.appengine.ext.webapp import template
 from recipe import Recipe
-from google.appengine.ext import db
+from ingredient import Ingredient
+from google.appengine.ext import ndb
 
 class MainHandler(webapp2.RequestHandler):
 
   def get(self):
+    rec_key = ndb.Key("Recipe", "Fried Chicken")
+    q = Ingredient.query(ancestor=rec_key)
 
-    query = db.GqlQuery("SELECT * FROM Recipe")
-    results = query.fetch(limit=100)
-
-    nums = ""
-    for recipe in results:
-      nums += ", " + str(recipe.num)
+    rec = rec_key.get()
+    recipes = [rec.name]
 
     path = os.path.join(os.path.dirname(__file__) + '../../views', 'index.html')
-    self.response.write(template.render(path, {"test": "test", "number": nums}))
+    self.response.write(template.render(path, {"recipes": recipes}))
